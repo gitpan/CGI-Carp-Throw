@@ -1,0 +1,6 @@
+Revision history for Perl extension CGI::Carp::Throw.
+
+0.01  Wed Aug 20 08:40:45 2008
+	- original version; created by h2xs 1.23 with options
+		-AX CGI::Carp::Throw
+
