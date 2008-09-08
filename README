@@ -1,16 +1,18 @@
-CGI-Carp-Throw version 0.01
+CGI-Carp-Throw version 0.02
 ===========================
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+CGI::Carp::Throw provides the ability to represent thrown
+exceptions as user oriented messages rather than obvious
+error messages with technical tracing information.  It adds
+the new functionality without losing any of the capabilities for
+providing error tracing from CGI::Carp.
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+By default it imports the function throw_browser as well as
+some default functions such as croak and carp from CGI::Carp.
+You can also request the import of throw_browser_cloaked and
+throw_format_sub as well as the importable methods of CGI::Carp.
+Detailed documentation of all methods are available in the POD
+of CGI::Carp::Throw and CGI::Carp.
 
 INSTALLATION
 

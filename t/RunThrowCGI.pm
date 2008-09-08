@@ -12,15 +12,20 @@ use Class::Struct map { $_ => '$' } qw(
     output_page trace_comment wo_trace_comment err_output script
 );
 
-my $rel_perl_run = `perl -v`;
-our $perl_path  =
-    ($rel_perl_run && length($rel_perl_run) >= 100)     ?   'perl'
-    : $Config{perlpath};
+
+my $null_dev = File::Spec->devnull;
+our $perl_path;
+
+foreach my $perl ($^X, $Config{perlpath}, 'perl') {
+    if (length(`$perl -v 2>$null_dev` || '') >= 100) {
+        $perl_path = $perl;
+        last;
+    }
+}
 
 sub run_throw_cgi {
     my $self = shift;
     my $script = $self->script( shift );
-    my $null_dev = File::Spec->devnull;
     
     $self->$_(undef) foreach(
         qw(output_page trace_comment wo_trace_comment err_output)
@@ -28,6 +33,7 @@ sub run_throw_cgi {
 
     local $/ = undef;
     my $page = $self->output_page(`$perl_path -Ilib t/$script 2>$null_dev`);
+
     $self->trace_comment(
             $page =~ /(<!--\s*CGI::Carp::Throw tracing.*?-->)/s
     );

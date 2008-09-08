@@ -1,6 +1,17 @@
 package CGI::Carp::Throw;
 
-use 5.00610;
+#####################################################################
+# CGI::Carp::Throw
+#
+# Provide the ability to represent thrown exceptions as user oriented
+# messages rather than obvious error messages with technical tracing
+# information without losing any of the capabilities for providing
+# error tracing from CGI::Carp.
+#
+#####################################################################
+
+
+use 5.00620;
 use strict;
 use warnings;
 
@@ -10,20 +21,15 @@ use CGI::Carp (
     (grep { ! /name=|(?:^wrap$)|ToBrowser/ } @CGI::Carp::EXPORT_OK)
 );
 
-# our %EXPORT_TAGS = ( 'all' => [ qw(
-#	
-# ) ] );
-#
-# our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
-
 our %EXPORT_TAGS = (
     'all' => [ qw(
-	throw_broser throw_browser_cloaked throw_format_sub
-    ), @CGI::Carp::EXPORT, @CGI::Carp::EXPORT_OK  ],
+	throw_browser throw_browser_cloaked throw_format_sub
+    ), @CGI::Carp::EXPORT, (grep { ! /\^name/ } @CGI::Carp::EXPORT_OK) ],
     'carp_browser' => [ qw(
         fatalsToBrowser warningsToBrowser throw_browser
     ) ]
 );
+
 use base qw(Exporter);
 
 our @EXPORT = (qw(
@@ -69,12 +75,16 @@ sub import {
     CGI::Carp::import($pkg, @forward_args);    
 }
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 my $throw_cloaked;
 
 #####################################################################
 # Do a little bit of message formatting where important.
+# Basically get rid of some lines of confess information that reflect
+# internal machinery and might be confusing and add a package marker.
+#
+# Add <html> <head> and <body> tags if they appear to be missing.
 #####################################################################
 sub massage_mess {
     my $mess = shift;
@@ -153,6 +163,7 @@ my $throw_format_fref;
 
 #####################################################################
 # Set / retrieve the throw_format_sub class attribute
+#
 # throw_format_sub class attribute is a user supplied routine to
 # format error messages in some format, probably using template
 # technology, resulting in an appearance compatible with a web site.
@@ -198,6 +209,12 @@ no warnings 'redefine';
 }
 
 #####################################################################
+# Shared throw browser logic for cloaked and non-cloaked variants.
+#
+# If you called this you wanted CGI::Carp wrapping (unless you're in
+# an eval) so turn that on.  If a formatting routine was specified
+# call it and die with its message.  Otherwise die and let the
+# fatalsToBrowser replacement take over.
 #####################################################################
 sub _throw_browser {
     unless ($CGI::Carp::WRAP or CGI::Carp::ineval) {
@@ -236,12 +253,8 @@ sub throw_browser_cloaked {
     _throw_browser(@_);
 }
 
-
-# Preloaded methods go here.
-
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
