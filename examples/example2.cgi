@@ -1,5 +1,11 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# example2.cgi - Sample/Test program for CGI::Carp::Throw
+# Demonstrates use of throw_format_sub to provide template formatted
+# throw_browser output.
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 

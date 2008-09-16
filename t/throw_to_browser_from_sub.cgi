@@ -1,5 +1,11 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# throw_browser.cgi - Test program for CGI::Carp::Throw
+# Demonstration of output from throw_browser with tracing information
+# that includes trace of call into sub {}.
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 

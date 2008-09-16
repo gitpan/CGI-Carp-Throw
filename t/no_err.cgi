@@ -1,5 +1,10 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# no_err.cgi - Test program for CGI::Carp::Throw
+# Demonstrates normal output in presence of eval/throw_browser.
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 

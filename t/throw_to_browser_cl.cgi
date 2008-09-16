@@ -1,5 +1,10 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# throw_browser.cgi - Test program for CGI::Carp::Throw
+# Basic demonstration of output from throw_browser_cloaked.
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 

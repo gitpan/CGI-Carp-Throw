@@ -1,5 +1,10 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# just_cluck.cgi - Test program for CGI::Carp::Throw
+# Demonstrates output of cluck with :carp_browser import.
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 

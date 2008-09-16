@@ -101,7 +101,7 @@ ok( $cgi_run->wo_trace_comment =~ /\bspaz\b.*\bat\b.*.*\bcarp_to_browser\b/s,
 SKIP :{
     eval {require HTML::Template};
     skip('Tests require HTML::Template', 3) if ($@);
-    $cgi_run->run_throw_cgi('canonical_ex_2.cgi');
+    $cgi_run->run_throw_cgi('../examples/example2.cgi');
     $cgi_run->ok_has_trace;
     $cgi_run->ok_has_no_vis_trace;
     ok( $cgi_run->wo_trace_comment =~ /style="color: red/s,

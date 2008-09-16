@@ -1,11 +1,15 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# carp_to_browser.cgi - Test program for CGI::Carp::Throw
+# Demonstrates outputs with :carp_browser of die/croak
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 
 use CGI qw/:standard/;
 use CGI::Carp::Throw qw/:carp_browser/;
-#use CGI::Carp::Throw;
 
 print header(), start_html(-title => 'Throw test'), h2("something before");
 

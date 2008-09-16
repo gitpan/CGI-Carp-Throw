@@ -1,5 +1,10 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# example1.cgi - Sample/Test program for CGI::Carp::Throw
+# Demonstrates basic functionality of CGI::Carp::Throw module.
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 

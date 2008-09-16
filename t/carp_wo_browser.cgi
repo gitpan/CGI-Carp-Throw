@@ -1,5 +1,11 @@
 #!/usr/bin/perl -w
 
+#####################################################################
+# carp_wo_browser.cgi - Test program for CGI::Carp::Throw
+# Demonstrates outputs of die/croak/throw_browser without 'toBrowser'
+# type imports.
+#####################################################################
+
 use strict;
 use lib 'lib', 'CGI-Carp-Throw/lib'; # IIS funiness
 
