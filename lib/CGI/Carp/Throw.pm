@@ -15,11 +15,13 @@ use warnings;
 
 use 5.006002;
 
+our $VERSION = '0.04';
+
 use Exporter;
 # using !/ToBrowser/ on import doesn't work
 use CGI::Carp (
     @CGI::Carp::EXPORT,
-    (grep { ! /name=|^wrap$|fatalsToBrowser/ } @CGI::Carp::EXPORT_OK)
+    (grep { ! /name=|^wrap$|ToBrowser/ } @CGI::Carp::EXPORT_OK)
 );
 
 use base qw(Exporter);
@@ -41,6 +43,8 @@ our %EXPORT_TAGS = (
     ) ]
 );
 
+*CGI::Carp::Throw::warningsToBrowser = *CGI::Carp::warningsToBrowser;
+
 my $final_warn_browser;
 
 #####################################################################
@@ -53,8 +57,6 @@ my $final_warn_browser;
 sub import {
     my $pkg = shift;
 
-    $DB::single = 1;
-
     # this section mostly taken from CGI::Carp
     my @routines = grep { ! /^(?:name|:)/ } (@_, @EXPORT);
     my($oldlevel) = $Exporter::ExportLevel;
@@ -65,7 +67,7 @@ sub import {
     # already exported CGI:Carp methods but need to make sure
     # other CGI::Carp import/Exporter functionality sees its arguments
     my @forward_args = grep
-        { not ($CGI::Carp::Throw::{ $_ } or /^:/) }
+        { /warningsToBrowser/ or not ($CGI::Carp::Throw::{ $_ } or /^:/) }
         @_;
 
     if (grep { /:(?:DEFAULT|carp_browser)/i } @_) {
@@ -77,15 +79,14 @@ sub import {
     }
     
     # compatibility with old CGI::Carp
-    @forward_args = grep { ! /^name=/ } @forward_args
-        if ($CGI::Carp::VERSION < 1.24);
+    if ($CGI::Carp::VERSION =~ /(\d*\.?\d*)/ and $1 < 1.24) {
+        @forward_args = grep { ! /^name=/ } @forward_args
+    }
 
     # be a bit careful what we might (re?)import to Throw module
     local @CGI::Carp::EXPORT = ();
     CGI::Carp::import($pkg, @forward_args);    
 }
-
-our $VERSION = '0.03';
 
 my $throw_cloaked;
 
